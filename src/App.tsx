@@ -35,6 +35,7 @@ import CookiePolicy from './pages/legal/CookiePolicy';
 import { FormProvider } from './context/FormContext';
 import { InquiryProvider } from './context/InquiryContext';
 import InquiryBucket from './components/InquiryBucket';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   const [resort, setResort] = useState<ResortData | null>(ayadaData);
@@ -89,6 +90,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <Router>
+        <ScrollToTop />
         <InquiryProvider>
           <FormProvider>
             <Layout resort={resort}>
