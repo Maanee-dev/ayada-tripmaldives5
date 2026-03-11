@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { CONFIG } from './config';
-
-// Supabase Client
-export const supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+import { supabase } from './lib/supabase';
 
 // Types
 export interface RoomType {

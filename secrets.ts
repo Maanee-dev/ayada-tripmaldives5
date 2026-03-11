@@ -12,6 +12,8 @@ export const SECRETS = {
   VITE_SUPABASE_ANON_KEY: 'sb_publishable_Ot34P55l4JGe2RjZywLovA_UokWsJ0I',
 
   // Supabase (Private - Server Side)
+  // IMPORTANT: Replace this with your actual Service Role Key from Supabase Settings -> API
+  // The service role key is required to bypass Row Level Security (RLS) on the server.
   SUPABASE_SERVICE_ROLE_KEY: 'sb_publishable_Ot34P55l4JGe2RjZywLovA_UokWsJ0I',
 
   // SMTP (Hostinger)
@@ -19,7 +21,7 @@ export const SECRETS = {
   SMTP_PORT: 465,
   SMTP_USER: 'hello@maldives-serenitytravels.com',
   SMTP_PASS: 'Sphinx980#',
-  SMTP_FROM: '"Hello" <hello@maldives-serenitytravels.com>',
+  SMTP_FROM: '"TripMaldives" <hello@maldives-serenitytravels.com>',
 
   // App URL
   APP_URL: 'https://www.ayada.tripmaldives.co',

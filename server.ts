@@ -15,7 +15,8 @@ const db = new Database("leads.db");
 
 // Supabase Client for Server-side (using secrets as fallback)
 const supabaseUrl = process.env.VITE_SUPABASE_URL || SECRETS.VITE_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || SECRETS.SUPABASE_SERVICE_ROLE_KEY || SECRETS.VITE_SUPABASE_ANON_KEY;
+// Priority: 1. Service Role (Env), 2. Service Role (Secrets), 3. Anon (Env), 4. Anon (Secrets)
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || SECRETS.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || SECRETS.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize local database as backup
@@ -344,8 +345,8 @@ async function startServer() {
       // Send email
       if (transporter && email) {
         try {
-          const fromEmail = process.env.SMTP_FROM || '"TripMaldives" <reservations@tripmaldives.co>';
-          const adminEmail = process.env.SMTP_USER || 'reservations@tripmaldives.co';
+          const fromEmail = process.env.SMTP_FROM || SECRETS.SMTP_FROM || '"TripMaldives" <reservations@tripmaldives.co>';
+          const adminEmail = process.env.SMTP_USER || SECRETS.SMTP_USER || 'reservations@tripmaldives.co';
 
           // 1. Send confirmation to the customer
           const info = await transporter.sendMail({
