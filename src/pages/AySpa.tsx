@@ -4,6 +4,8 @@ import { ResortData } from '../types';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
 
+import BottomCTA from '../components/BottomCTA';
+
 interface AySpaProps {
   resort: ResortData;
 }
@@ -228,6 +230,10 @@ export default function AySpa({ resort }: AySpaProps) {
             </div>
           </div>
         </div>
+        <BottomCTA 
+          title="Ready for Total Rejuvenation?"
+          description="Contact our wellness specialists to book your treatments or curate a personalized wellness journey at AySpa."
+        />
       </div>
     </div>
   );

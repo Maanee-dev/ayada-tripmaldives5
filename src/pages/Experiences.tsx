@@ -4,6 +4,7 @@ import { CheckCircle2, Waves, ChevronRight, Star, Compass, Camera, Heart } from 
 import { ResortData } from '../types';
 import { useForm } from '../context/FormContext';
 import SEO from '../components/SEO';
+import BottomCTA from '../components/BottomCTA';
 
 interface ExperiencesProps {
   resort: ResortData;
@@ -78,19 +79,11 @@ export default function Experiences({ resort }: ExperiencesProps) {
       </div>
 
       {/* Final CTA Section */}
-      <div className="bg-stone-50 rounded-2xl p-8 md:p-12 lg:p-24 mb-20 text-center">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-emerald-600 uppercase tracking-[0.3em] text-[10px] font-bold mb-6">Create Your Story</p>
-          <h2 className="text-3xl md:text-5xl font-tripsans mb-6 leading-tight">Ready for Adventure?</h2>
-          <p className="text-stone-500 text-lg mb-12 leading-relaxed font-light">Let our luxury travel specialists curate a personalized itinerary of experiences tailored to your interests.</p>
-          <button 
-            onClick={() => navigate('/request-quote')}
-            className="bg-stone-900 text-white px-12 py-5 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all shadow-xl shadow-stone-900/20"
-          >
-            Start Planning
-          </button>
-        </div>
-      </div>
+      <BottomCTA 
+        title="Ready for Adventure?"
+        description="Let our luxury travel specialists curate a personalized itinerary of experiences tailored to your interests."
+        buttonText="Start Planning"
+      />
       </div>
     </>
   );

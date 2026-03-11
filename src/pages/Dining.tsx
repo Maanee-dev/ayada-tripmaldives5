@@ -5,6 +5,7 @@ import { Utensils, Star, Waves, ChevronRight, Clock, MapPin, Award, ArrowLeft, A
 import { ResortData } from '../types';
 import { useForm } from '../context/FormContext';
 import SEO from '../components/SEO';
+import BottomCTA from '../components/BottomCTA';
 
 interface DiningProps {
   resort: ResortData;
@@ -260,21 +261,11 @@ export default function Dining({ resort }: DiningProps) {
         </motion.div>
 
         {/* Final CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center py-20"
-        >
-          <h3 className="text-4xl md:text-7xl font-tripsans mb-8 text-stone-900">Ready to Taste Paradise?</h3>
-          <p className="text-stone-500 text-lg md:text-xl mb-16 max-w-2xl mx-auto font-light leading-relaxed">Contact our concierge team to personalize your culinary journey or book a private destination dining experience under the stars.</p>
-          <button 
-            onClick={() => navigate('/request-quote')}
-            className="bg-stone-900 text-white px-16 py-7 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-emerald-600 transition-all shadow-3xl shadow-stone-900/20"
-          >
-            Inquire Now
-          </button>
-        </motion.div>
+        <BottomCTA 
+          title="Ready to Taste Paradise?"
+          description="Contact our concierge team to personalize your culinary journey or book a private destination dining experience under the stars."
+          buttonText="Inquire Now"
+        />
       </div>
     </div>
   );

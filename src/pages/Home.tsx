@@ -7,8 +7,8 @@ import 'react-day-picker/dist/style.css';
 import { ResortData } from '../types';
 import { useForm } from '../context/FormContext';
 import SEO from '../components/SEO';
-
 import Map from '../components/Map';
+import BottomCTA from '../components/BottomCTA';
 
 interface HomeProps {
   resort: ResortData;
@@ -458,6 +458,7 @@ export default function Home({ resort }: HomeProps) {
           </div>
         )}
         <Map />
+        <BottomCTA />
       </>
     );
   }

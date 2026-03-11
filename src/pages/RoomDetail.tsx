@@ -4,6 +4,7 @@ import { Maximize, Users, Star, UserCheck, ShieldCheck, Coffee, Wind, ShoppingBa
 import { ResortData } from '../types';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
+import BottomCTA from '../components/BottomCTA';
 
 interface RoomDetailProps {
   resort: ResortData;
@@ -216,6 +217,10 @@ export default function RoomDetail({ resort }: RoomDetailProps) {
             ></iframe>
           </div>
         </section>
+        <BottomCTA 
+          title={`Book your stay in the ${room.name}`}
+          description="Our luxury travel specialists are available 24/7 to help you secure this villa and plan your perfect stay."
+        />
       </div>
     </div>
   );

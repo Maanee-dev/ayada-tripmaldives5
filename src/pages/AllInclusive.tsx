@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Waves, CheckCircle2, Utensils, GlassWater, Zap, Star, Plane, Coffee, Bike, Heart, Sparkles, Clock } from 'lucide-react';
 import { ResortData } from '../types';
 import SEO from '../components/SEO';
+import BottomCTA from '../components/BottomCTA';
 
 interface AllInclusiveProps {
   resort: ResortData;
@@ -236,6 +237,10 @@ export default function AllInclusive({ resort }: AllInclusiveProps) {
             </div>
           </div>
         </div>
+        <BottomCTA 
+          title="Ready for a Carefree Vacation?"
+          description="Contact our specialists to find the perfect all-inclusive plan for your stay at Ayada Maldives."
+        />
       </div>
     </div>
   );

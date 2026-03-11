@@ -4,6 +4,8 @@ import { ResortData } from '../types';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
 
+import BottomCTA from '../components/BottomCTA';
+
 interface WeddingsProps {
   resort: ResortData;
 }
@@ -298,6 +300,12 @@ export default function Weddings({ resort }: WeddingsProps) {
             ))}
           </div>
         </div>
+        <BottomCTA 
+          title="Begin Your Forever After"
+          description="Our dedicated wedding planners are here to help you design every detail of your dream celebration at Ayada Maldives."
+          buttonText="Request Wedding Quote"
+          secondaryButtonText="Talk to a Wedding Specialist"
+        />
       </div>
     </div>
   );

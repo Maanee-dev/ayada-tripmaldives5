@@ -5,6 +5,7 @@ import { ResortData, RoomType } from '../types';
 import { useForm } from '../context/FormContext';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
+import BottomCTA from '../components/BottomCTA';
 
 interface RoomsProps {
   resort: ResortData;
@@ -283,21 +284,10 @@ export default function Rooms({ resort }: RoomsProps) {
       )}
 
       {/* Concierge Section */}
-      <div className="mt-20 md:mt-32 relative rounded-2xl overflow-hidden bg-stone-50 p-8 md:p-12 lg:p-24 text-center">
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <p className="text-emerald-600 uppercase tracking-[0.3em] text-[10px] font-bold mb-6">Personalized Service</p>
-          <h2 className="text-3xl md:text-5xl font-tripsans mb-8 leading-tight">Expert Guidance</h2>
-          <p className="text-stone-500 text-sm md:text-lg mb-12 leading-relaxed font-light">Our luxury travel specialists are available 24/7 to help you select the villa that best suits your group's needs and preferences.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => navigate('/request-quote')}
-              className="bg-stone-900 text-white px-10 py-5 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-stone-800 transition-all shadow-xl shadow-stone-900/20"
-            >
-              Speak to a Specialist
-            </button>
-          </div>
-        </div>
-      </div>
+      <BottomCTA 
+        title="Expert Villa Selection"
+        description="Our luxury travel specialists are available 24/7 to help you select the villa that best suits your group's needs and preferences."
+      />
       </div>
     </>
   );
