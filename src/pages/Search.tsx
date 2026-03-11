@@ -131,7 +131,7 @@ export default function SearchPage({ resort }: SearchPageProps) {
                   {item.description}
                 </p>
                 <Link 
-                  to={item.type === 'Room' ? '/rooms' : item.type === 'Dining' ? '/dining' : item.type === 'Experience' ? '/experiences' : '/offers'}
+                  to={item.type === 'Room' ? `/rooms/${(item as any).id}` : item.type === 'Dining' ? '/dining' : item.type === 'Experience' ? '/experiences' : '/offers'}
                   className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-stone-900 group/link"
                 >
                   View Details <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />

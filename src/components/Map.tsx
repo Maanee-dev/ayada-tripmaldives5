@@ -23,39 +23,8 @@ export default function Map() {
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade"
           title="Ayada Maldives Location"
-          className="grayscale hover:grayscale-0 transition-all duration-700"
+          className="transition-all duration-700"
         ></iframe>
-
-        {/* Floating Info Card */}
-        <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12 md:right-auto md:w-80 bg-white/90 backdrop-blur-md p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-2xl border border-white/20 animate-in slide-in-from-bottom-8 duration-700">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-              <MapPin size={20} />
-            </div>
-            <div>
-              <h4 className="font-tripsans text-lg text-stone-900">Ayada Maldives</h4>
-              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Gaafu Dhaalu Atoll</p>
-            </div>
-          </div>
-          
-          <div className="space-y-4 mb-6">
-            <div className="flex items-start gap-3">
-              <Navigation size={14} className="text-emerald-600 mt-1 shrink-0" />
-              <p className="text-xs text-stone-600 leading-relaxed">
-                Accessible via a 55-minute domestic flight from Malé to Kaadedhdhoo, followed by a 45-minute speedboat transfer.
-              </p>
-            </div>
-          </div>
-
-          <a 
-            href="https://maps.app.goo.gl/ayada-maldives-location" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-stone-900 text-white py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 transition-all group"
-          >
-            Open in Google Maps <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
-        </div>
       </div>
     </section>
   );

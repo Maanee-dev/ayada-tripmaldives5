@@ -11,8 +11,10 @@ export interface RoomType {
   name: string;
   size: string;
   image: string;
+  images?: string[];
   capacity: string;
   description: string;
+  map_url?: string;
 }
 
 export interface DiningVenue {

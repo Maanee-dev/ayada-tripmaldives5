@@ -25,15 +25,20 @@ export const ayadaData: ResortData = {
       id: 'garden-villa',
       name: 'Garden Villa',
       size: '101 sqm',
-      image: 'https://picsum.photos/seed/garden/800/600',
+      image: 'https://images.squarespace-cdn.com/content/v1/5b4f0c8d89c17294e53d4ffc/1680344545031-LG6OKGX6EQNO33T96S7V/Garden+Villa+1.jpg?format=2500w',
+      images: [
+        'https://images.squarespace-cdn.com/content/v1/5b4f0c8d89c17294e53d4ffc/1680344545031-LG6OKGX6EQNO33T96S7V/Garden+Villa+1.jpg?format=2500w',
+        'https://images.squarespace-cdn.com/content/v1/5b4f0c8d89c17294e53d4ffc/1533283180231-1100ER779RL5L3HOOB3L/garden_villa2.jpg?format=2500w'
+      ],
       capacity: '2 Adults + 1 Child',
-      description: 'Nestled in the lush tropical gardens, these villas offer a private sanctuary with a spacious veranda and a private pool.'
+      description: 'Nestled in the lush tropical gardens, these villas offer a private sanctuary with a spacious veranda and a private pool.',
+      map_url: 'https://www.google.com/maps/embed?pb=!4v1533289297040!6m8!1m7!1sCAoSLEFGMVFpcE4xeGIyUDBHZVBwZ3dQdXVEVVhpdjEtYTBwRUxQOGdHNGhtanF6!2m2!1d0.2764119336230769!2d73.3558128563991!3f77.65!4f1.2999999999999972!5f0.5970117501821992'
     },
     {
       id: 'beach-villa',
       name: 'Beach Villa with Pool',
       size: '103 sqm',
-      image: 'https://picsum.photos/seed/beach/800/600',
+      image: 'https://images.squarespace-cdn.com/content/v1/5b4f0c8d89c17294e53d4ffc/1533284612030-82FMW3ZFNZ6TYYNDU7QN/bv2.jpg?format=2500w',
       capacity: '2 Adults + 1 Child',
       description: 'Located directly on the beach, these villas feature a private pool and a large outdoor bathroom with a bathtub and rain shower.'
     },

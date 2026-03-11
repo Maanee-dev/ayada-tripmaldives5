@@ -136,7 +136,7 @@ export default function Rooms({ resort }: RoomsProps) {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
-                  onClick={() => setSelectedRoom(room)}
+                  onClick={() => navigate(`/rooms/${room.id}`)}
                   className="bg-stone-900 text-white px-10 py-5 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all shadow-lg shadow-stone-900/10"
                 >
                   View Details

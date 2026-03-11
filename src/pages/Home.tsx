@@ -8,6 +8,8 @@ import { ResortData } from '../types';
 import { useForm } from '../context/FormContext';
 import SEO from '../components/SEO';
 
+import Map from '../components/Map';
+
 interface HomeProps {
   resort: ResortData;
 }
@@ -400,61 +402,62 @@ export default function Home({ resort }: HomeProps) {
 
 
 
-      {/* Gallery Modal */}
-      {showGallery && (
-        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto animate-in fade-in duration-300">
-          <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 border-b border-stone-100 px-6 py-4 flex items-center justify-between">
-            <h3 className="font-tripsans text-xl">{resort.name} Gallery</h3>
-            <button 
-              onClick={() => setShowGallery(false)}
-              className="p-2 hover:bg-stone-100 rounded-full transition-colors"
-            >
-              <X size={24} />
-            </button>
-          </div>
-          <div className="max-w-7xl mx-auto p-6 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {resort.images.map((img, i) => (
-                <div key={i} className="rounded-2xl overflow-hidden shadow-lg">
-                  <img 
-                    src={img} 
-                    alt={`${resort.name} - ${i + 1}`} 
-                    className="w-full h-auto object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              ))}
-              {/* Add more images from activities or rooms to fill the gallery */}
-              {resort.room_types.map((room, i) => (
-                <div key={`room-${i}`} className="rounded-2xl overflow-hidden shadow-lg">
-                  <img 
-                    src={room.image} 
-                    alt={room.name} 
-                    className="w-full h-auto object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="p-4 bg-stone-50">
-                    <p className="text-xs font-bold uppercase tracking-widest text-stone-400">{room.name}</p>
+        {/* Gallery Modal */}
+        {showGallery && (
+          <div className="fixed inset-0 z-[100] bg-white overflow-y-auto animate-in fade-in duration-300">
+            <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 border-b border-stone-100 px-6 py-4 flex items-center justify-between">
+              <h3 className="font-tripsans text-xl">{resort.name} Gallery</h3>
+              <button 
+                onClick={() => setShowGallery(false)}
+                className="p-2 hover:bg-stone-100 rounded-full transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="max-w-7xl mx-auto p-6 md:p-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {resort.images.map((img, i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden shadow-lg">
+                    <img 
+                      src={img} 
+                      alt={`${resort.name} - ${i + 1}`} 
+                      className="w-full h-auto object-cover"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
-                </div>
-              ))}
-              {resort.activities.map((activity, i) => (
-                <div key={`activity-${i}`} className="rounded-2xl overflow-hidden shadow-lg">
-                  <img 
-                    src={activity.image} 
-                    alt={activity.name} 
-                    className="w-full h-auto object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="p-4 bg-stone-50">
-                    <p className="text-xs font-bold uppercase tracking-widest text-stone-400">{activity.name}</p>
+                ))}
+                {/* Add more images from activities or rooms to fill the gallery */}
+                {resort.room_types.map((room, i) => (
+                  <div key={`room-${i}`} className="rounded-2xl overflow-hidden shadow-lg">
+                    <img 
+                      src={room.image} 
+                      alt={room.name} 
+                      className="w-full h-auto object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="p-4 bg-stone-50">
+                      <p className="text-xs font-bold uppercase tracking-widest text-stone-400">{room.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+                {resort.activities.map((activity, i) => (
+                  <div key={`activity-${i}`} className="rounded-2xl overflow-hidden shadow-lg">
+                    <img 
+                      src={activity.image} 
+                      alt={activity.name} 
+                      className="w-full h-auto object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="p-4 bg-stone-50">
+                      <p className="text-xs font-bold uppercase tracking-widest text-stone-400">{activity.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </>
-  );
-}
+        )}
+        <Map />
+      </>
+    );
+  }

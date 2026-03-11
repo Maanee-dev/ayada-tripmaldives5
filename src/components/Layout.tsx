@@ -361,7 +361,6 @@ export default function Layout({ children, resort }: LayoutProps) {
       <main className="w-full px-6 md:px-12 lg:px-16 py-16 md:py-24">
         {children}
         <Gallery />
-        {location.pathname === '/' && <Map />}
       </main>
 
       {/* Footer */}

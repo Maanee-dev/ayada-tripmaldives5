@@ -9,6 +9,7 @@ import Experiences from './pages/Experiences';
 import Offers from './pages/Offers';
 import Dining from './pages/Dining';
 import Rooms from './pages/Rooms';
+import RoomDetail from './pages/RoomDetail';
 import RequestQuote from './pages/RequestQuote';
 import ThankYou from './pages/ThankYou';
 import SearchPage from './pages/Search';
@@ -52,7 +53,17 @@ export default function App() {
 
         if (error) throw error;
         // Merge Supabase data with our detailed local data
-        setResort({ ...ayadaData, ...data });
+        // We prioritize local room_types as they have the latest images and maps
+        const mergedRoomTypes = ayadaData.room_types.map(localRoom => {
+          const remoteRoom = data?.room_types?.find((r: any) => r.id === localRoom.id || r.name === localRoom.name);
+          return remoteRoom ? { ...localRoom, ...remoteRoom } : localRoom;
+        });
+
+        setResort({ 
+          ...ayadaData, 
+          ...data, 
+          room_types: mergedRoomTypes 
+        });
       } catch (err) {
         console.error('Error fetching resort:', err);
         // Fallback to local data if Supabase fails
@@ -101,6 +112,7 @@ export default function App() {
                 <Route path="/offers" element={<Offers resort={resort} />} />
                 <Route path="/dining" element={<Dining resort={resort} />} />
                 <Route path="/rooms" element={<Rooms resort={resort} />} />
+                <Route path="/rooms/:roomId" element={<RoomDetail resort={resort} />} />
                 <Route path="/request-quote" element={<RequestQuote resort={resort} />} />
                 <Route path="/thank-you" element={<ThankYou />} />
                 <Route path="/search" element={<SearchPage resort={resort} />} />
