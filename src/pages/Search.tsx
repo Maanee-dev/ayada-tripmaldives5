@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search as SearchIcon, MapPin, Star, ArrowRight, Clock } from 'lucide-react';
-import { ResortData, Offer } from '../types';
-import { supabase, mapOffer } from '../lib/supabase';
+import { ResortData, Offer, supabase } from '../types';
 import SEO from '../components/SEO';
 
 interface SearchPageProps {
@@ -25,7 +24,7 @@ export default function SearchPage({ resort }: SearchPageProps) {
           .eq('resort_id', resort.id);
 
         if (error) throw error;
-        setOffers((data || []).map(mapOffer));
+        setOffers(data || []);
       } catch (err) {
         console.error('Error fetching offers:', err);
       } finally {

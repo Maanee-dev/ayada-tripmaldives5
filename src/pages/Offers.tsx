@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Waves, Gift, Plane, ChevronRight, Clock, Tag, Info, CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
-import { ResortData, Offer } from '../types';
-import { supabase, mapOffer } from '../lib/supabase';
+import { ResortData, Offer, supabase } from '../types';
 import { useForm } from '../context/FormContext';
 import SEO from '../components/SEO';
 
@@ -29,7 +28,7 @@ export default function Offers({ resort }: OffersProps) {
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setOffers((data || []).map(mapOffer));
+        setOffers(data || []);
       } catch (err) {
         console.error('Error fetching offers:', err);
       } finally {

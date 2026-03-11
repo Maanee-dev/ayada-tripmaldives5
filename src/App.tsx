@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { ResortData } from './types';
-import { supabase } from './lib/supabase';
+import { ResortData, supabase } from './types';
 import { ayadaData } from './data';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -18,7 +17,6 @@ import AllInclusive from './pages/AllInclusive';
 import AySpa from './pages/AySpa';
 import Weddings from './pages/Weddings';
 import Contact from './pages/Contact';
-import AuthCallback from './pages/AuthCallback';
 
 // Activity Pages
 import Excursions from './pages/activities/Excursions';
@@ -37,7 +35,6 @@ import CookiePolicy from './pages/legal/CookiePolicy';
 
 import { FormProvider } from './context/FormContext';
 import { InquiryProvider } from './context/InquiryContext';
-import { AuthProvider } from './context/AuthContext';
 import InquiryBucket from './components/InquiryBucket';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -103,23 +100,22 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <AuthProvider>
-        <Router>
-          <ScrollToTop />
-          <InquiryProvider>
-            <FormProvider>
-              <Layout resort={resort}>
-                <Routes>
-                  <Route path="/" element={<Home resort={resort} />} />
-                  <Route path="/experiences" element={<Experiences resort={resort} />} />
-                  <Route path="/offers" element={<Offers resort={resort} />} />
-                  <Route path="/dining" element={<Dining resort={resort} />} />
-                  <Route path="/rooms" element={<Rooms resort={resort} />} />
-                  <Route path="/rooms/:roomId" element={<RoomDetail resort={resort} />} />
-                  <Route path="/request-quote" element={<RequestQuote resort={resort} />} />
-                  <Route path="/thank-you" element={<ThankYou />} />
-                  <Route path="/search" element={<SearchPage resort={resort} />} />
-                  <Route path="/auth/callback" element={<AuthCallback />} />
+      <Router>
+        <ScrollToTop />
+        <InquiryProvider>
+          <FormProvider>
+            <Layout resort={resort}>
+              <Routes>
+                {/* ... existing routes ... */}
+                <Route path="/" element={<Home resort={resort} />} />
+                <Route path="/experiences" element={<Experiences resort={resort} />} />
+                <Route path="/offers" element={<Offers resort={resort} />} />
+                <Route path="/dining" element={<Dining resort={resort} />} />
+                <Route path="/rooms" element={<Rooms resort={resort} />} />
+                <Route path="/rooms/:roomId" element={<RoomDetail resort={resort} />} />
+                <Route path="/request-quote" element={<RequestQuote resort={resort} />} />
+                <Route path="/thank-you" element={<ThankYou />} />
+                <Route path="/search" element={<SearchPage resort={resort} />} />
                 
                 <Route path="/all-inclusive" element={<AllInclusive resort={resort} />} />
                 <Route path="/ayspa" element={<AySpa resort={resort} />} />
@@ -148,7 +144,6 @@ export default function App() {
           </FormProvider>
         </InquiryProvider>
       </Router>
-      </AuthProvider>
     </HelmetProvider>
   );
 }
