@@ -9,7 +9,6 @@ import { useForm } from '../context/FormContext';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
 import { CONFIG } from '../config';
-import { supabase } from '../lib/supabase';
 
 interface RequestQuoteProps {
   resort: ResortData;
@@ -33,35 +32,9 @@ export default function RequestQuote({ resort }: RequestQuoteProps) {
     setIsSubmitting(true);
     
     try {
-      // 1. Persist to Supabase 'inquiries' table as requested
-      const messageDetails = `
-Resort: ${resort.name}
-Dates: ${formData.checkIn} to ${formData.checkOut}
-Guests: ${formData.adults} Adults, ${formData.children} Children
-Villa: ${formData.roomType}
-Meal Plan: ${formData.mealPlan}
-Phone: ${formData.phone}
-Notes: ${formData.notes}
-Bucket Items: ${items.map(i => i.name).join(', ')}
-      `.trim();
-
-      const { error: dbError } = await supabase
-        .from('inquiries')
-        .insert([{
-          name: formData.name,
-          email: formData.email,
-          message: messageDetails,
-          status: 'New'
-        }]);
-
-      if (dbError) {
-        console.error('Database Error:', dbError.message);
-      } else {
-        console.log('Data persisted successfully to inquiries table');
-      }
-
-      // 2. Call existing backend API
-      const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
+      const apiUrl = `${CONFIG.API_URL}/api/leads`;
+      console.log('Submitting lead to:', apiUrl);
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -71,7 +44,7 @@ Bucket Items: ${items.map(i => i.name).join(', ')}
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to submit to API');
+      if (!response.ok) throw new Error('Failed to submit');
       
       const data = await response.json();
       

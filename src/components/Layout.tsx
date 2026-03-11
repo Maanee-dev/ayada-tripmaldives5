@@ -76,7 +76,9 @@ export default function Layout({ children, resort }: LayoutProps) {
     e.preventDefault();
     
     try {
-      const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
+      const apiUrl = `${CONFIG.API_URL}/api/leads`;
+      console.log('Submitting lead to:', apiUrl);
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -15,8 +15,7 @@ const db = new Database("leads.db");
 
 // Supabase Client for Server-side (using secrets as fallback)
 const supabaseUrl = process.env.VITE_SUPABASE_URL || SECRETS.VITE_SUPABASE_URL;
-// Priority: 1. Service Role (Env), 2. Service Role (Secrets), 3. Anon (Env), 4. Anon (Secrets)
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || SECRETS.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || SECRETS.VITE_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || SECRETS.SUPABASE_SERVICE_ROLE_KEY || SECRETS.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize local database as backup
@@ -273,7 +272,16 @@ async function startServer() {
   app.use(express.json());
 
   // API Routes
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
   app.post("/api/leads", async (req, res) => {
+    console.log("POST /api/leads request received", { 
+      name: req.body.name, 
+      email: req.body.email,
+      resort: req.body.resort 
+    });
     const { 
       resort, name, email, phone, 
       checkIn, checkOut, adults, children, groups,
@@ -345,8 +353,8 @@ async function startServer() {
       // Send email
       if (transporter && email) {
         try {
-          const fromEmail = process.env.SMTP_FROM || SECRETS.SMTP_FROM || '"TripMaldives" <reservations@tripmaldives.co>';
-          const adminEmail = process.env.SMTP_USER || SECRETS.SMTP_USER || 'reservations@tripmaldives.co';
+          const fromEmail = process.env.SMTP_FROM || '"TripMaldives" <reservations@tripmaldives.co>';
+          const adminEmail = process.env.SMTP_USER || 'reservations@tripmaldives.co';
 
           // 1. Send confirmation to the customer
           const info = await transporter.sendMail({
@@ -394,7 +402,7 @@ async function startServer() {
         previewUrl
       });
     } catch (error) {
-      console.error("Database error:", error);
+      console.error("Database error in /api/leads:", error);
       res.status(500).json({ error: "Failed to save inquiry" });
     }
   });
@@ -499,6 +507,12 @@ async function startServer() {
       res.sendFile(path.join(process.cwd(), "dist", "index.html"));
     });
   }
+
+  // Global Error Handler
+  app.use((err: any, req: any, res: any, next: any) => {
+    console.error("Express Global Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  });
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
