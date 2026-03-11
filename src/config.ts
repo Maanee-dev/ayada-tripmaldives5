@@ -28,4 +28,9 @@ export const CONFIG = {
 
   // App URL
   APP_URL: process.env.APP_URL || 'https://ais-dev-mvclsw6xodparojsp5u6yj-9926905175.asia-southeast1.run.app',
+
+  // API URL for client-side requests
+  // On Hostinger, set this to your Cloud Run URL (e.g., https://your-app.run.app)
+  // If left empty, it will use relative paths (works if frontend and backend are on the same server)
+  API_URL: import.meta.env.VITE_API_URL || '',
 };

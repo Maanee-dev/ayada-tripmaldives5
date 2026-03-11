@@ -6,6 +6,7 @@ import Database from "better-sqlite3";
 import nodemailer from "nodemailer";
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { SECRETS } from './secrets';
 
 dotenv.config();
@@ -255,6 +256,17 @@ function getEmailHtml(data: any) {
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  app.use(cors({
+    origin: [
+      "https://www.ayada.tripmaldives.co",
+      "https://ayada.tripmaldives.co",
+      "http://localhost:3000",
+      "http://localhost:5173",
+      /\.run\.app$/ // Allow all Cloud Run subdomains
+    ],
+    credentials: true
+  }));
 
   app.use(compression());
   app.use(express.json());

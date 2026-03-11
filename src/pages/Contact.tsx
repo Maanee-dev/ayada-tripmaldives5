@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ResortData } from '../types';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
+import { CONFIG } from '../config';
 
 interface ContactProps {
   resort: ResortData;
@@ -25,7 +26,7 @@ export default function Contact({ resort }: ContactProps) {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/leads', {
+      const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -6,6 +6,7 @@ import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import 'react-day-picker/dist/style.css';
+import { CONFIG } from '../config';
 
 export default function InquiryBucket() {
   const { items, removeItem, clearBucket, isBucketOpen, setIsBucketOpen } = useInquiry();
@@ -52,7 +53,7 @@ export default function InquiryBucket() {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/leads', {
+      const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

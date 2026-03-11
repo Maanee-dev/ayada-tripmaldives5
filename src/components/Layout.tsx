@@ -8,6 +8,7 @@ import ChatBot from './ChatBot';
 import OfferPopup from './OfferPopup';
 import Gallery from './Gallery';
 import Map from './Map';
+import { CONFIG } from '../config';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -75,7 +76,7 @@ export default function Layout({ children, resort }: LayoutProps) {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/leads', {
+      const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
