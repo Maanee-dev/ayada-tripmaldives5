@@ -12,7 +12,7 @@ export const SECRETS = {
   VITE_SUPABASE_ANON_KEY: 'sb_publishable_Ot34P55l4JGe2RjZywLovA_UokWsJ0I',
 
   // Supabase (Private - Server Side)
-  SUPABASE_SERVICE_ROLE_KEY: 'YOUR_SERVICE_ROLE_KEY',
+  SUPABASE_SERVICE_ROLE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvY25jd2NoYWFranRzdmxzY21kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkyNTExMjEsImV4cCI6MjA4NDgyNzEyMX0.5mPqVBJuqeAzdy2L_UHfmfFOhuWDGScYDx1c7Hh5iZw',
 
   // SMTP (Hostinger)
   SMTP_HOST: 'smtp.hostinger.com',

@@ -6,6 +6,8 @@ import { useForm } from '../context/FormContext';
 import { useInquiry } from '../context/InquiryContext';
 import ChatBot from './ChatBot';
 import OfferPopup from './OfferPopup';
+import Gallery from './Gallery';
+import Map from './Map';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -358,6 +360,8 @@ export default function Layout({ children, resort }: LayoutProps) {
 
       <main className="w-full px-6 md:px-12 lg:px-16 py-16 md:py-24">
         {children}
+        <Gallery />
+        {location.pathname === '/' && <Map />}
       </main>
 
       {/* Footer */}

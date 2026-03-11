@@ -269,41 +269,60 @@ async function startServer() {
 
     try {
       // Insert into Local SQLite (Backup)
-      const stmt = db.prepare(`
-        INSERT INTO leads (
-          resort, name, email, phone, 
-          check_in, check_out, adults, children, groups_data,
-          room_type, meal_plan, items_data, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
+      try {
+        const stmt = db.prepare(`
+          INSERT INTO leads (
+            resort, name, email, phone, 
+            check_in, check_out, adults, children, groups_data,
+            room_type, meal_plan, items_data, notes
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `);
 
-      stmt.run(
-        resort, name, email, phone, 
-        checkIn, checkOut, adults, children, JSON.stringify(groups || []),
-        roomType, mealPlan, JSON.stringify(items || []), notes
-      );
+        stmt.run(
+          resort || 'Ayada Maldives', 
+          name || 'Guest', 
+          email || '', 
+          phone || '', 
+          checkIn || '', 
+          checkOut || '', 
+          adults || 0, 
+          children || 0, 
+          JSON.stringify(groups || []),
+          roomType || 'General Inquiry', 
+          mealPlan || 'N/A', 
+          JSON.stringify(items || []), 
+          notes || ''
+        );
+      } catch (dbError) {
+        console.error("SQLite insertion error:", dbError);
+        // Continue to Supabase even if SQLite fails
+      }
 
       // Insert into Supabase
-      const { error: supabaseError } = await supabase
-        .from('leads')
-        .insert([{
-          resort,
-          name,
-          email,
-          phone,
-          check_in: checkIn,
-          check_out: checkOut,
-          adults,
-          children,
-          groups_data: groups,
-          room_type: roomType,
-          meal_plan: mealPlan,
-          items_data: items,
-          notes
-        }]);
+      try {
+        const { error: supabaseError } = await supabase
+          .from('leads')
+          .insert([{
+            resort: resort || 'Ayada Maldives',
+            name: name || 'Guest',
+            email: email || '',
+            phone: phone || '',
+            check_in: checkIn || '',
+            check_out: checkOut || '',
+            adults: adults || 0,
+            children: children || 0,
+            groups_data: groups || [],
+            room_type: roomType || 'General Inquiry',
+            meal_plan: mealPlan || 'N/A',
+            items_data: items || [],
+            notes: notes || ''
+          }]);
 
-      if (supabaseError) {
-        console.error("Supabase insertion error:", supabaseError);
+        if (supabaseError) {
+          console.error("Supabase insertion error:", supabaseError);
+        }
+      } catch (sError) {
+        console.error("Supabase service error:", sError);
       }
 
       console.log(`New Lead for ${resort}:`, { name, email });
