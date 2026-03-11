@@ -6,14 +6,15 @@ import Database from "better-sqlite3";
 import nodemailer from "nodemailer";
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { SECRETS } from './secrets';
 
 dotenv.config();
 
 const db = new Database("leads.db");
 
-// Supabase Client for Server-side (using service role key if available, otherwise anon)
-const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://zocncwchaakjtsvlscmd.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_Ot34P55l4JGe2RjZywLovA_UokWsJ0I';
+// Supabase Client for Server-side (using secrets as fallback)
+const supabaseUrl = process.env.VITE_SUPABASE_URL || SECRETS.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || SECRETS.SUPABASE_SERVICE_ROLE_KEY || SECRETS.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize local database as backup
@@ -47,20 +48,46 @@ try {
 let transporter: nodemailer.Transporter;
 
 async function setupMailer() {
-  try {
-    const testAccount = await nodemailer.createTestAccount();
+  const host = process.env.SMTP_HOST || SECRETS.SMTP_HOST;
+  const port = parseInt(process.env.SMTP_PORT || SECRETS.SMTP_PORT.toString());
+  const user = process.env.SMTP_USER || SECRETS.SMTP_USER;
+  const pass = process.env.SMTP_PASS || SECRETS.SMTP_PASS;
+
+  if (host && user && pass) {
     transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
+      host,
+      port,
+      secure: port === 465, // true for 465, false for other ports
+      auth: { user, pass },
+      tls: {
+        // Do not fail on invalid certs
+        rejectUnauthorized: false
+      }
     });
-    console.log("Ethereal Email account created for testing.");
-  } catch (error) {
-    console.error("Failed to setup mailer:", error);
+    
+    transporter.verify((error, success) => {
+      if (error) {
+        console.error("SMTP Verification Error:", error);
+      } else {
+        console.log(`SMTP Mailer configured and verified for ${host}:${port}`);
+      }
+    });
+  } else {
+    try {
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+      console.log("Ethereal Email account created for testing.");
+    } catch (error) {
+      console.error("Failed to setup mailer:", error);
+    }
   }
 }
 
@@ -286,15 +313,44 @@ async function startServer() {
       // Send email
       if (transporter && email) {
         try {
+          const fromEmail = process.env.SMTP_FROM || '"TripMaldives" <reservations@tripmaldives.co>';
+          const adminEmail = process.env.SMTP_USER || 'reservations@tripmaldives.co';
+
+          // 1. Send confirmation to the customer
           const info = await transporter.sendMail({
-            from: '"TripMaldives" <reservations@tripmaldives.co>',
+            from: fromEmail,
             to: email,
-            subject: "Your Quote Request - TripMaldives",
+            subject: `Your Quote Request - ${resort || 'TripMaldives'}`,
             html: getEmailHtml(req.body),
           });
           
+          // 2. Send notification to the admin
+          await transporter.sendMail({
+            from: fromEmail,
+            to: adminEmail,
+            subject: `New Inquiry: ${name} - ${resort || 'General Inquiry'}`,
+            html: `
+              <div style="font-family: sans-serif; padding: 20px;">
+                <h2>New Inquiry Received</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+                <p><strong>Resort:</strong> ${resort}</p>
+                <p><strong>Check-in:</strong> ${checkIn || 'N/A'}</p>
+                <p><strong>Check-out:</strong> ${checkOut || 'N/A'}</p>
+                <p><strong>Guests:</strong> ${adults || 0} Adults, ${children || 0} Children</p>
+                <p><strong>Villa Type:</strong> ${roomType || 'N/A'}</p>
+                <p><strong>Meal Plan:</strong> ${mealPlan || 'N/A'}</p>
+                <p><strong>Message:</strong> ${notes || 'N/A'}</p>
+                <hr />
+                <p>Sent from TripMaldives Platform</p>
+              </div>
+            `
+          });
+          
           previewUrl = nodemailer.getTestMessageUrl(info);
-          console.log("Preview URL: %s", previewUrl);
+          console.log("Email sent successfully.");
+          if (previewUrl) console.log("Preview URL: %s", previewUrl);
         } catch (emailError) {
           console.error("Failed to send email:", emailError);
         }

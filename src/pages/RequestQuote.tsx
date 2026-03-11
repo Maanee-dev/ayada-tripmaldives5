@@ -93,8 +93,10 @@ export default function RequestQuote({ resort }: RequestQuoteProps) {
                     <label className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 md:mb-3">Check-in & Check-out</label>
                     <div 
                       onClick={() => {
-                        setShowDatePicker(!showDatePicker);
-                        setShowGuestPicker(false);
+                        if (!showDatePicker) {
+                          setShowDatePicker(true);
+                          setShowGuestPicker(false);
+                        }
                       }}
                       className={`bg-white p-4 md:p-5 rounded-2xl border flex items-center justify-between cursor-pointer transition-all shadow-sm ${showDatePicker ? 'border-emerald-600 ring-1 ring-emerald-600' : 'border-stone-100 hover:bg-stone-50'}`}
                     >
@@ -112,7 +114,14 @@ export default function RequestQuote({ resort }: RequestQuoteProps) {
                     {showDatePicker && (
                       <div className="absolute top-full left-0 w-[305px] -ml-[13px] pl-[9px] pr-2 mt-4 bg-white py-6 md:p-8 md:w-full md:ml-0 rounded-3xl shadow-2xl border border-stone-100 z-[100] animate-in fade-in slide-in-from-top-2 duration-300">
                         <div className="flex justify-between items-center mt-[-15px] mb-[25px] px-4">
-                          <h4 className="text-[10px] font-bold uppercase tracking-widest text-stone-900 ml-[-20px]">Select Dates</h4>
+                          <div>
+                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-stone-900 ml-[-20px]">
+                              {!formData.checkIn ? 'Select Check-in Date' : !formData.checkOut ? 'Select Check-out Date' : 'Dates Selected'}
+                            </h4>
+                            {formData.checkIn && !formData.checkOut && (
+                              <p className="text-[8px] text-emerald-600 font-bold uppercase tracking-widest ml-[-20px] mt-1">Check-in: {format(new Date(formData.checkIn), 'MMM dd, yyyy')}</p>
+                            )}
+                          </div>
                           <button type="button" onClick={() => setShowDatePicker(false)} className="p-0 hover:bg-stone-100 rounded-full transition-colors">
                             <X size={18} className="mr-[-99px]" />
                           </button>
@@ -126,18 +135,42 @@ export default function RequestQuote({ resort }: RequestQuoteProps) {
                               to: formData.checkOut ? new Date(formData.checkOut) : undefined
                             }}
                             onSelect={(range) => {
+                              const newCheckIn = range?.from ? format(range.from, 'yyyy-MM-dd') : '';
+                              const newCheckOut = range?.to ? format(range.to, 'yyyy-MM-dd') : '';
+                              
                               setFormData({
                                 ...formData,
-                                checkIn: range?.from ? format(range.from, 'yyyy-MM-dd') : '',
-                                checkOut: range?.to ? format(range.to, 'yyyy-MM-dd') : ''
+                                checkIn: newCheckIn,
+                                checkOut: newCheckOut
                               });
-                              if (range?.from && range?.to) {
-                                setShowDatePicker(false);
-                              }
+
+                              // If both are selected, you can still keep it open for review
+                              // or close it manually via the X button.
+                              // Removed auto-close to satisfy user request for it not to toggle off.
                             }}
                             disabled={{ before: startOfToday() }}
                             className="luxury-datepicker"
                           />
+                        </div>
+                        <div className="mt-4 flex flex-col items-center gap-4">
+                          {formData.checkIn && formData.checkOut && (
+                            <button 
+                              type="button"
+                              onClick={() => setShowDatePicker(false)}
+                              className="w-full bg-stone-900 text-white py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all"
+                            >
+                              Confirm Dates
+                            </button>
+                          )}
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              setFormData({...formData, checkIn: '', checkOut: ''});
+                            }}
+                            className="text-[8px] font-bold uppercase tracking-widest text-stone-400 hover:text-stone-900 transition-colors"
+                          >
+                            Reset Dates
+                          </button>
                         </div>
                       </div>
                     )}

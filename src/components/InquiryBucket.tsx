@@ -177,7 +177,7 @@ export default function InquiryBucket() {
                     <div className="space-y-4">
                       <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-stone-500">
                         <CalendarIcon size={14} />
-                        Select Dates
+                        {!dateRange.from ? 'Select Check-in Date' : !dateRange.to ? 'Select Check-out Date' : 'Dates Selected'}
                       </label>
                       <div className="bg-stone-50 p-4 rounded-2xl border border-stone-100">
                         <DayPicker
@@ -185,7 +185,23 @@ export default function InquiryBucket() {
                           selected={{ from: dateRange.from, to: dateRange.to }}
                           onSelect={(range) => setDateRange({ from: range?.from, to: range?.to })}
                           className="mx-auto"
+                          disabled={{ before: new Date() }}
                         />
+                        {dateRange.from && (
+                          <div className="mt-4 pt-4 border-t border-stone-200 flex justify-between items-center">
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                              {dateRange.from && <span>In: {format(dateRange.from, 'MMM dd')}</span>}
+                              {dateRange.to && <span className="ml-2">Out: {format(dateRange.to, 'MMM dd')}</span>}
+                            </div>
+                            <button 
+                              type="button"
+                              onClick={() => setDateRange({ from: undefined, to: undefined })}
+                              className="text-[10px] font-bold uppercase tracking-widest text-emerald-600"
+                            >
+                              Reset
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
 

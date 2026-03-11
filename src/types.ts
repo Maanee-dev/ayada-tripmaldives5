@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { CONFIG } from './config';
 
 // Supabase Client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://zocncwchaakjtsvlscmd.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_Ot34P55l4JGe2RjZywLovA_UokWsJ0I';
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
 
 // Types
 export interface RoomType {
