@@ -26,9 +26,9 @@ export default function Home({ resort }: HomeProps) {
   return (
     <>
       <SEO 
-        title="Luxury Resort in Maldives"
-        description="Experience the ultimate luxury at Ayada Maldives. Book your dream vacation with exclusive rates and benefits."
-        keywords="Ayada Maldives, luxury resort, Maldives vacation, overwater villas, Maldives holiday"
+        title="Ayada Maldives - Luxury Resort Bookings | TripMaldives"
+        description="Experience the ultimate luxury at Ayada Maldives. Book your dream vacation with exclusive rates, overwater villas, and personalized service through TripMaldives."
+        keywords="Ayada Maldives, luxury resort Maldives, Maldives overwater villas, Maldives vacation booking, TripMaldives Ayada"
       />
 
 

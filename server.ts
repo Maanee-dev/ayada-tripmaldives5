@@ -409,6 +409,48 @@ async function startServer() {
     }
   });
 
+  // Sitemap Route
+  app.get("/sitemap.xml", (req, res) => {
+    const baseUrl = process.env.APP_URL || "https://ayada.tripmaldives.co";
+    const pages = [
+      { url: "/", priority: "1.0", changefreq: "daily" },
+      { url: "/rooms", priority: "0.9", changefreq: "weekly" },
+      { url: "/offers", priority: "0.9", changefreq: "daily" },
+      { url: "/dining", priority: "0.8", changefreq: "weekly" },
+      { url: "/experiences", priority: "0.8", changefreq: "weekly" },
+      { url: "/all-inclusive", priority: "0.8", changefreq: "monthly" },
+      { url: "/ayspa", priority: "0.8", changefreq: "monthly" },
+      { url: "/weddings", priority: "0.8", changefreq: "monthly" },
+      { url: "/activities/excursions", priority: "0.7", changefreq: "weekly" },
+      { url: "/activities/watersports", priority: "0.7", changefreq: "weekly" },
+      { url: "/activities/diving", priority: "0.7", changefreq: "weekly" },
+      { url: "/activities/sports-recreation", priority: "0.7", changefreq: "weekly" },
+      { url: "/activities/zuzuu-kids-club", priority: "0.7", changefreq: "weekly" },
+      { url: "/activities/exotic-animals", priority: "0.7", changefreq: "weekly" },
+      { url: "/contact", priority: "0.6", changefreq: "monthly" },
+      { url: "/request-quote", priority: "0.6", changefreq: "monthly" },
+      { url: "/terms", priority: "0.3", changefreq: "monthly" },
+      { url: "/privacy", priority: "0.3", changefreq: "monthly" },
+      { url: "/cancellation-policy", priority: "0.3", changefreq: "monthly" },
+      { url: "/booking-conditions", priority: "0.3", changefreq: "monthly" },
+      { url: "/cookie-policy", priority: "0.3", changefreq: "monthly" },
+    ];
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${pages.map(page => `
+  <url>
+    <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join('')}
+</urlset>`;
+
+    res.header('Content-Type', 'application/xml');
+    res.send(sitemap);
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

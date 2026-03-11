@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { ResortData, supabase } from './types';
 import { ayadaData } from './data';
 import Layout from './components/Layout';
@@ -86,47 +87,49 @@ export default function App() {
   }
 
   return (
-    <Router>
-      <InquiryProvider>
-        <FormProvider>
-          <Layout resort={resort}>
-            <Routes>
-              {/* ... existing routes ... */}
-              <Route path="/" element={<Home resort={resort} />} />
-              <Route path="/experiences" element={<Experiences resort={resort} />} />
-              <Route path="/offers" element={<Offers resort={resort} />} />
-              <Route path="/dining" element={<Dining resort={resort} />} />
-              <Route path="/rooms" element={<Rooms resort={resort} />} />
-              <Route path="/request-quote" element={<RequestQuote resort={resort} />} />
-              <Route path="/thank-you" element={<ThankYou />} />
-              <Route path="/search" element={<SearchPage resort={resort} />} />
-              
-              <Route path="/all-inclusive" element={<AllInclusive resort={resort} />} />
-              <Route path="/ayspa" element={<AySpa resort={resort} />} />
-              <Route path="/weddings" element={<Weddings resort={resort} />} />
-              <Route path="/contact" element={<Contact resort={resort} />} />
+    <HelmetProvider>
+      <Router>
+        <InquiryProvider>
+          <FormProvider>
+            <Layout resort={resort}>
+              <Routes>
+                {/* ... existing routes ... */}
+                <Route path="/" element={<Home resort={resort} />} />
+                <Route path="/experiences" element={<Experiences resort={resort} />} />
+                <Route path="/offers" element={<Offers resort={resort} />} />
+                <Route path="/dining" element={<Dining resort={resort} />} />
+                <Route path="/rooms" element={<Rooms resort={resort} />} />
+                <Route path="/request-quote" element={<RequestQuote resort={resort} />} />
+                <Route path="/thank-you" element={<ThankYou />} />
+                <Route path="/search" element={<SearchPage resort={resort} />} />
+                
+                <Route path="/all-inclusive" element={<AllInclusive resort={resort} />} />
+                <Route path="/ayspa" element={<AySpa resort={resort} />} />
+                <Route path="/weddings" element={<Weddings resort={resort} />} />
+                <Route path="/contact" element={<Contact resort={resort} />} />
 
-              {/* Activity Routes */}
-              <Route path="/activities/excursions" element={<Excursions resort={resort} />} />
-              <Route path="/activities/watersports" element={<Watersports resort={resort} />} />
-              <Route path="/activities/diving" element={<Diving resort={resort} />} />
-              <Route path="/activities/sports-recreation" element={<SportsRecreation resort={resort} />} />
-              <Route path="/activities/zuzuu-kids-club" element={<KidsClub resort={resort} />} />
-              <Route path="/activities/exotic-animals" element={<ExoticAnimals resort={resort} />} />
-              
-              {/* Legal Routes */}
-              <Route path="/terms" element={<TermsOfService />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/cancellation-policy" element={<CancellationPolicy />} />
-              <Route path="/booking-conditions" element={<BookingConditions />} />
-              <Route path="/cookie-policy" element={<CookiePolicy />} />
+                {/* Activity Routes */}
+                <Route path="/activities/excursions" element={<Excursions resort={resort} />} />
+                <Route path="/activities/watersports" element={<Watersports resort={resort} />} />
+                <Route path="/activities/diving" element={<Diving resort={resort} />} />
+                <Route path="/activities/sports-recreation" element={<SportsRecreation resort={resort} />} />
+                <Route path="/activities/zuzuu-kids-club" element={<KidsClub resort={resort} />} />
+                <Route path="/activities/exotic-animals" element={<ExoticAnimals resort={resort} />} />
+                
+                {/* Legal Routes */}
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/cancellation-policy" element={<CancellationPolicy />} />
+                <Route path="/booking-conditions" element={<BookingConditions />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
 
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-            <InquiryBucket />
-          </Layout>
-        </FormProvider>
-      </InquiryProvider>
-    </Router>
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+              <InquiryBucket />
+            </Layout>
+          </FormProvider>
+        </InquiryProvider>
+      </Router>
+    </HelmetProvider>
   );
 }

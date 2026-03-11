@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle2, Home, Calendar, MessageCircle, Mail } from 'lucide-react';
 import { motion } from 'motion/react';
+import SEO from '../components/SEO';
 
 export default function ThankYou() {
   const navigate = useNavigate();
@@ -13,6 +14,10 @@ export default function ThankYou() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-20">
+      <SEO 
+        title="Thank You | Request Received"
+        description="Your request for Ayada Maldives has been received. Our luxury travel specialists will contact you shortly."
+      />
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

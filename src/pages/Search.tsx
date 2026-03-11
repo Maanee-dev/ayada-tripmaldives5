@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search as SearchIcon, MapPin, Star, ArrowRight, Clock } from 'lucide-react';
 import { ResortData, Offer, supabase } from '../types';
+import SEO from '../components/SEO';
 
 interface SearchPageProps {
   resort: ResortData;
@@ -73,6 +74,10 @@ export default function SearchPage({ resort }: SearchPageProps) {
 
   return (
     <div className="min-h-screen py-20 px-6">
+      <SEO 
+        title={`Search results for "${query}"`}
+        description={`Explore search results for "${query}" at Ayada Maldives. Find the best villas, dining, and experiences.`}
+      />
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <p className="text-emerald-600 uppercase tracking-[0.5em] text-[10px] font-bold mb-6">Explore Paradise</p>

@@ -22,5 +22,5 @@ export const SECRETS = {
   SMTP_FROM: '"Hello" <hello@tripmaldives.co>',
 
   // App URL
-  APP_URL: 'https://ais-dev-mvclsw6xodparojsp5u6yj-9926905175.asia-southeast1.run.app',
+  APP_URL: 'https://www.ayada.tripmaldives.co',
 };
