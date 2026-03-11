@@ -5,6 +5,7 @@ import { ResortData } from '../types';
 import { useInquiry } from '../context/InquiryContext';
 import SEO from '../components/SEO';
 import { CONFIG } from '../config';
+import { supabase } from '../lib/supabase';
 
 interface ContactProps {
   resort: ResortData;
@@ -26,6 +27,24 @@ export default function Contact({ resort }: ContactProps) {
     setIsSubmitting(true);
     
     try {
+      // 1. Persist to Supabase 'inquiries' table as requested
+      const { error: dbError } = await supabase
+        .from('inquiries')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          message: `Subject: ${formData.subject}\n\n${formData.message}`,
+          status: 'New'
+        }]);
+
+      if (dbError) {
+        console.error('Database Error:', dbError.message);
+        // We continue anyway to try the API call, or we could stop here
+      } else {
+        console.log('Data persisted successfully to inquiries table');
+      }
+
+      // 2. Call existing backend API for email notifications and backup storage
       const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39,7 +58,7 @@ export default function Contact({ resort }: ContactProps) {
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to submit');
+      if (!response.ok) throw new Error('Failed to submit to API');
       
       const data = await response.json();
       

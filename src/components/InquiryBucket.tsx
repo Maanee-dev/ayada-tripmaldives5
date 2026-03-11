@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import 'react-day-picker/dist/style.css';
 import { CONFIG } from '../config';
+import { supabase } from '../lib/supabase';
 
 export default function InquiryBucket() {
   const { items, removeItem, clearBucket, isBucketOpen, setIsBucketOpen } = useInquiry();
@@ -53,6 +54,32 @@ export default function InquiryBucket() {
     setIsSubmitting(true);
     
     try {
+      // 1. Persist to Supabase 'inquiries' table
+      const messageDetails = `
+Bulk Inquiry for Ayada Maldives
+Dates: ${dateRange.from ? format(dateRange.from, 'yyyy-MM-dd') : 'TBD'} to ${dateRange.to ? format(dateRange.to, 'yyyy-MM-dd') : 'TBD'}
+Groups: ${formData.groups.map((g, i) => `Group ${i+1}: ${g.adults}A, ${g.children}C`).join(' | ')}
+WhatsApp: ${formData.whatsapp}
+Special Request: ${formData.specialRequest}
+Items: ${items.map(i => i.name).join(', ')}
+      `.trim();
+
+      const { error: dbError } = await supabase
+        .from('inquiries')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          message: messageDetails,
+          status: 'New'
+        }]);
+
+      if (dbError) {
+        console.error('Database Error:', dbError.message);
+      } else {
+        console.log('Data persisted successfully to inquiries table');
+      }
+
+      // 2. Call existing backend API
       const response = await fetch(`${CONFIG.API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -66,12 +93,12 @@ export default function InquiryBucket() {
           notes: formData.specialRequest,
           checkIn: dateRange.from ? format(dateRange.from, 'yyyy-MM-dd') : '',
           checkOut: dateRange.to ? format(dateRange.to, 'yyyy-MM-dd') : '',
-          resort: 'Ayada Maldives', // Or dynamic if you have multiple
-          items: items // Send the bucket items
+          resort: 'Ayada Maldives', 
+          items: items 
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to submit');
+      if (!response.ok) throw new Error('Failed to submit to API');
       
       const data = await response.json();
       
